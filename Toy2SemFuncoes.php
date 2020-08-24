@@ -1,28 +1,4 @@
-<?php
-
-function converteNome($nome) {
-    $nome = ucwords(strtolower($nome));
-    return ($nome);
-
-}
-
-function converteNomeParaEmail($nome) {
-  //Outra forma: $ultimoNome = substr($nome, strrpos($nome, ' ') + 1);
-  $ultimoNome = substr(strrchr($nome, ' '), 1);
-
-  //regra de negócio
-  $emailSufixo = '@empresax.com.br';
-  $separator = '_';
-
-  return strtolower($nome[0] . $separator . $ultimoNome . $emailSufixo);
-}
-
-
-function converteFilial($filial) {
-    $filial = ucfirst($filial);
-    return ($filial);
-}
-
+<?php 
 
 $filiais = [
     'adamantina' => [
@@ -84,17 +60,23 @@ $filiais = [
         <th>E-mail</th>
         <th>Filial</th>
     </tr>
-<!-- foreachloops aninhados - ou seja, um loop dentro de outro:
-1-O loop externo lê cada elemento na matriz de nível superior.
-2-Para cada um desses elementos de nível superior, o loop interno se move pela matriz contida no elemento de nível superior e assim por diante.
-                              $filial => $funcionarios(Chama o indíce de cidades/filiais). 
--->
+
+<!--O primeiro foreach recebe os dados armazenado em filiais, ou seja, adamantina, borborema e cajamar, neste mesmo foreach
+é passado o indíce dos nomes que estão dentro. -->   
     <?php foreach($filiais as $filial => $funcionarios): ?> 
+        <!--Neste foreach é chamado o indíce de funcionarios declarado anteriormente para verificar todos os nomes existentes
+        dentro do array -->
         <?php foreach($funcionarios as $funcionario): ?>
             <tr>
-                <td><?php echo converteNome($funcionario); ?></td>
-                <td><?php echo converteNomeParaEmail($funcionario); ?></td>
-                <td><?php echo converteFilial($filial); ?></td>
+                <td><?php echo $funcionario; ?></td>
+                <td><?php   
+                $ultimoNome = substr($funcionario, strrpos($funcionario, ' ') + 1);
+                $provedor = '@empresax.com.br';
+                $separator = '_';
+                $funcionario = strtolower($funcionario[0] . $separator .  $ultimoNome . $provedor);
+                echo $funcionario;
+                ?></td>
+                <td><?php echo $filial; ?></td>
             </tr>
         <?php endforeach; ?>
     <?php endforeach; ?> 
